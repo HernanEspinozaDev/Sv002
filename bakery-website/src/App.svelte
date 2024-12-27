@@ -1,47 +1,95 @@
 <script>
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
-  import Counter from './lib/Counter.svelte'
+  import { onMount } from "svelte";
+  import { navigateTo } from "./utils/navigation";
+  import Carousel from "./components/home/Carousel.svelte";
+  import ProductsSection from "./components/products/ProductsSection.svelte";
+  import CartModal from "./components/cart/CartModal.svelte";
+
+  let showCartModal = false;
+
+  const toggleCartModal = () => {
+    showCartModal = !showCartModal;
+  };
 </script>
 
+<header class="bg-white py-4 shadow-md">
+  <div class="container mx-auto px-4 flex justify-between items-center">
+    <img src="/logo.svg" alt="Bakery Logo" class="h-12" />
+    <nav>
+      <ul class="flex space-x-6">
+        <li>
+          <button
+            class="hover:text-blue-500"
+            on:click={() => navigateTo("products")}
+            >Productos</button
+          >
+        </li>
+        <li>
+          <button
+            class="hover:text-blue-500"
+            on:click={() => navigateTo("contact")}
+            >Contacto</button
+          >
+        </li>
+        <li>
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center"
+            on:click={toggleCartModal}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+              />
+            </svg>
+            Cotización
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
 <main>
-  <div>
-    <a href="https://vite.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1>Vite + Svelte</h1>
-
-  <div class="card">
-    <Counter />
-  </div>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
+  <Carousel />
+  <ProductsSection />
+  <section id="contact" class="py-16">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12">Contacto</h2>
+      <p class="text-center">
+        ¡Contáctanos para cualquier consulta o pedido especial!
+      </p>
+    </div>
+  </section>
 </main>
 
-<style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-  }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
-  .read-the-docs {
-    color: #888;
-  }
-</style>
+<footer class="bg-gray-200 py-6 mt-12">
+  <div class="container mx-auto px-4 text-center">
+    <p>&copy; {new Date().getFullYear()} Panadería Delicias. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<div class="fixed bottom-4 left-4 z-50">
+  <a
+    href="https://wa.me/tunumerodetelefono"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <button
+      class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-full shadow-lg flex items-center"
+    >
+      <img src="/whatsapp.svg" alt="WhatsApp" class="h-6 mr-2" />
+      WhatsApp
+    </button>
+  </a>
+</div>
+
+<CartModal bind:showCartModal />
